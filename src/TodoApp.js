@@ -24,10 +24,7 @@ const toggleTodo = (id) => {
         id
     };
 }
-/**
- * 
- * Reducers 
- */
+
 const getVisibleTodos = (todos, filter) => {
     switch(filter){
         case 'SHOW_ALL':
