@@ -2,6 +2,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {addTodo, setVisibilityFilter, toggleTodo} from './actions';
+import { ActionCreators as UndoActionCreators } from 'redux-undo';
+
 const getVisibleTodos = (todos, filter) => {
     switch(filter){
         case 'SHOW_ALL':
@@ -11,7 +13,7 @@ const getVisibleTodos = (todos, filter) => {
         case 'SHOW_ACTIVE':
             return todos.filter(e => !e.completed);
         default:
-        return todos;
+            return todos;
     }
 };
 const Link = ({active, children, onClick}) => {
@@ -68,8 +70,9 @@ const TodoList = ({todos, onTodoClick}) => (
     </ul>
 );
 const mapStateToTodoListProps = (state) => {
+    console.log(state.todos.present);
     return {
-        todos: getVisibleTodos(state.todos, state.visibilityFilter)
+        todos: getVisibleTodos(state.todos.present, state.visibilityFilter)
     }
 };
 const mapDispatchToTodoListProps = (dispatch) =>{
@@ -128,12 +131,41 @@ const Footer = () => (
     {' '}
 </p>
 );
+let UndoRedo = ({ canUndo, canRedo, onUndo, onRedo }) => (
+    <p>
+        <button
+            onClick={onUndo}
+            disabled={!canUndo}
+        > 
+            Undo 
+        </button>
+        <button
+            onClick={onRedo}
+            disabled={!canRedo}
+        > 
+            Redo 
+        </button>
+    </p>
+);
+const mapStateToUndoRedoProps = (state) => {
+    console.log(state);
+    return {
+        canUndo: state.todos.past.length > 0,
+        canRedo: state.todos.future.length > 0
+    }
+};
 
+const mapDispatchToUndoRedoProps = {
+    onUndo: UndoActionCreators.undo,
+    onRedo: UndoActionCreators.redo
+};
+UndoRedo = connect(mapStateToUndoRedoProps, mapDispatchToUndoRedoProps)(UndoRedo);
 const TodoApp = () => (
     <div>
         <AddTodo/>
         <VisibleTodoList/>
         <Footer/>
+        <UndoRedo/>
 </div>
 );
 

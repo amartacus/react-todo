@@ -5,6 +5,8 @@ import todoApp from './reducers';
 
 const configureStore = () => {
 	const persistedState = loadState();
+	console.log('---Persisted State------');
+	console.log(persistedState);
 	const store = createStore(todoApp, persistedState);
 
 	store.subscribe(throttle(() => {
@@ -12,7 +14,7 @@ const configureStore = () => {
 					todos: store.getState().todos
 			});
 			console.log('State:');
-			console.log(store.getState());
+			console.log(store.getState().todos);
 			console.log('-----------------');
 	}, 1000));
 	return store;
