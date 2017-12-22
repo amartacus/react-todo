@@ -1,5 +1,4 @@
 import {combineReducers } from  'redux';
-// Reducers
 const todo = (state, action) => {
 	switch (action.type) {
 			case 'ADD_TODO':
