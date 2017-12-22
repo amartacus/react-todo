@@ -2,9 +2,12 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-
+import AddTodo from './containers/AddTodo';
+import VisibleTodoList from './containers/VisibleTodoList';
+import Footer from './containers/Footer';
+import UndoRedo from './containers/UndoRedo';
 // Main app
-const App = ({children}) => {
+const App = () => {
   return (
     <div className="App">
       <header className="App-header">
@@ -12,10 +15,13 @@ const App = ({children}) => {
         <h1 className="App-title">Welcome to React Test Page</h1>
       </header>
         <div className="App-wrapper">
-          {children}
+          <AddTodo/>
+          <VisibleTodoList/>
+          <Footer/>
+          <UndoRedo/>
         </div>
     </div>
   );
-}
+};
 
 export default App;
